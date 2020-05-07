@@ -2,6 +2,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'pry'
+require 'rspec'
 
 PAGE_URL = "https://coinmarketcap.com/all/views/all/"
 
@@ -48,15 +49,6 @@ def tab_values_clean(tab_values)
 	return tab_values
 end
 
-#puts "#{tab_values}"
-
-#def crea_hash(noms,valeurs)
-#	hash = {}
-#	for i in 0...noms.length
-#		hash[noms[i]] = valeurs[i]
-#	end
-#	return hash
-#end
 
 def crea_final_tab(noms,valeurs)
 	tab = []
@@ -72,17 +64,21 @@ def perform
 
 	tab_codes = page.xpath("//*[@class = 'cmc-table__cell cmc-table__cell--sortable cmc-table__cell--left cmc-table__cell--sort-by__symbol']/div").map {|div| div.text}
 	tab_values_tmp = page.xpath("//*[@class = 'cmc-table__cell cmc-table__cell--sortable cmc-table__cell--right cmc-table__cell--sort-by__price']/a").map {|a| a.text}
-
-	#puts "#{tab_codes}"
-
+	puts "===== Tableau de codes crypto : ====="
+	puts "#{tab_codes}"
+	puts ""
+	puts "===== Tableau de valeurs brutes : ====="
+	puts "#{tab_values_tmp}"
+	puts ""
+	puts "===== Tableau de valeurs nettoyées : ====="
 	tab_values = tab_values_clean(tab_values_tmp)
-	#puts "#{tab_values}"
-
+	puts "#{tab_values}"
+	puts ""
+	puts "===== Tableau de hash final : ====="
 	final_tab = crea_final_tab(tab_codes,tab_values)
 	puts "#{final_tab}"
-
-	#hash = crea_hash(tab_codes,tab_values)
-	#puts "#{hash}"
+	puts ""
+	
 end
 
 perform
